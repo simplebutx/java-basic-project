@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="admin-container">
+    <p class="admin-title">관리자 페이지</p>
+    <p class="admin-subtitle">유저 목록</p>
+
+    <div class="user-list">
+        <div class="user-card" th:each="userlist : ${userlist}">
+            <div>
+                <div class="user-field">아이디</div>
+                <div class="user-value" th:text="${userlist.username}"></div>
+            </div>
+
+            <div>
+                <div class="user-field">이름</div>
+                <div class="user-value" th:text="${userlist.name}"></div>
+            </div>
+
+            <div>
+                <span class="role-badge"
+                      th:text="${userlist.role}"
+                      th:classappend="${userlist.role == 'ROLE_ADMIN'} ? ' role-admin' : ' role-user'">
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

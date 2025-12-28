@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="container mypage">
+    <div class="header">
+        <div>
+            <h1 class="h1">My Page</h1>
+            <p class="sub">로그인 정보 및 권한 확인</p>
+        </div>
+    </div>
+
+    <!-- ✅ 로그인 정보 카드 -->
+    <div class="card card-soft">
+        <div class="card-head">
+            <h3 class="card-title">로그인 정보</h3>
+            <span class="chip chip-soft" sec:authorize="isAuthenticated()">로그인됨</span>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <p class="sub">로그인한 아이디</p>
+                <div class="chip" sec:authentication="principal.username"></div>
+            </div>
+
+            <div class="info-item">
+                <p class="sub">권한</p>
+                <span class="chip chip-outline" sec:authentication="principal.authorities"></span>
+            </div>
+        </div>
+
+        <div class="tip-wrap">
+            <div sec:authorize="hasAuthority('ROLE_USER')" class="tip">
+                <strong>ROLE_USER</strong> 권한이 있는 유저에게만 보이는 영역
+            </div>
+
+            <div sec:authorize="isAuthenticated()" class="tip">
+                <strong>인증됨</strong> 로그인된 사람만 보이는 영역
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ 내 글 리스트 -->
+    <div class="section-head">
+        <h2 class="h2">내가 쓴 글</h2>
+        <p class="sub" th:text="'총 ' + ${#lists.size(posts)} + '개'">총 0개</p>
+    </div>
+
+    <div class="list post-grid">
+        <a th:each="post : ${posts}"
+           th:href="@{/posts/{id}(id=${post.id})}"
+           class="post post-card">
+            <div class="thumb-wrap" th:if="${post.imageUrl != null}">
+                <img th:src="${post.imageUrl}" class="thumb" alt="post image"/>
+            </div>
+
+            <div class="post-body">
+                <h4 class="title" th:text="${post.title}">제목</h4>
+                <p class="content" th:text="${post.content}">내용</p>
+            </div>
+
+            <div class="meta">
+                <div>작성자 · <span th:text="${post.author}">author</span></div>
+                <div class="dot">•</div>
+                <div>
+                    <span th:text="${#temporals.format(post.createdAt, 'yyyy. MM. dd. a h:mm')}">createdAt</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+</body>
+</html>

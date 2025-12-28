@@ -1,0 +1,35 @@
+.form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.field label{
+  display:block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom:6px;
+}
+
+.field input, .field textarea{
+  width:100%;
+  padding: 12px 12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:white;
+  outline:none;
+}
+
+.field textarea{
+  min-height: 160px;
+  resize: vertical;
+}
+
+.field input:focus, .field textarea:focus{
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79,110,247,0.18);
+}
+
+textarea {
+  font-family: inherit;
+}

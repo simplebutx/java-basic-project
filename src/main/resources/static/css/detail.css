@@ -1,0 +1,121 @@
+/* ===== Detail Page (스크샷 스타일) ===== */
+.page{
+  padding: 28px 16px 80px;
+}
+
+.detail-card{
+  max-width: 980px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #eceff3;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.08);
+  padding: 34px 42px;
+}
+
+.detail-title{
+  margin: 0 0 14px;
+  font-size: 44px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.detail-content{
+  margin: 0 0 18px;
+  font-size: 20px;
+  line-height: 1.7;
+  color: #111827;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.detail-meta{
+  margin: 18px 0 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #4b5563;
+  font-size: 16px;
+}
+
+.meta-row{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta-emoji{
+  width: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.meta-value{
+  font-weight: 700;
+  color: #111827;
+}
+
+.detail-image-wrap{
+  margin: 18px 0 22px;
+}
+
+.detail-image{
+  width: 680px;          /* 스샷처럼 큼직하게 */
+  max-width: 100%;
+  display: block;
+  border-radius: 18px;
+  box-shadow: 0 16px 38px rgba(17, 24, 39, 0.18);
+}
+
+/* 버튼(수정/삭제) */
+.detail-actions{
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.action-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 800;
+  border: 1px solid transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+.action-edit{
+  background: #41b146;
+  border-color: #3aa53f;
+  color: #fff;
+}
+
+.action-edit:hover{
+  filter: brightness(0.98);
+}
+
+.action-delete{
+  background: #e74c3c;
+  border-color: #d74335;
+  color: #fff;
+}
+
+.action-delete:hover{
+  filter: brightness(0.98);
+}
+
+@media (max-width: 560px){
+  .detail-card{
+    padding: 22px 18px;
+  }
+  .detail-title{
+    font-size: 32px;
+  }
+  .detail-content{
+    font-size: 17px;
+  }
+}

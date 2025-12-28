@@ -1,0 +1,48 @@
+<div class="nav" th:fragment="navbar"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <div class="nav-inner">
+        <a class="brand" href="/">MyProject</a>
+        <span class="spacer"></span>
+
+        <span class="user-name" sec:authorize="isAuthenticated()">
+            <span sec:authentication="name"></span>님
+        </span>
+
+        <a href="/mypage" class="nav-btn" sec:authorize="isAuthenticated()">마이페이지</a>
+        <a href="/posts/new" class="nav-btn" sec:authorize="isAuthenticated()">글쓰기</a>
+        <a href="/logout" class="nav-btn" sec:authorize="isAuthenticated()">로그아웃</a>
+
+        <a href="/login" class="nav-btn" sec:authorize="isAnonymous()">로그인</a>
+        <a href="/signup" class="nav-btn" sec:authorize="isAnonymous()">회원가입</a>
+
+        <a href="/admin" class="nav-btn" sec:authorize="hasAuthority('ROLE_ADMIN')">
+            관리자페이지
+        </a>
+    </div>
+
+    <!-- ✅ toast container: nav 밖에 두는 게 더 안전하지만,
+         fragment에 넣을 거면 nav 바깥 영역으로 분리해서 fixed로 처리 -->
+    <div id="toast-container"></div>
+
+    <!-- ✅ 공용 토스트 함수 -->
+    <script>
+        function showToast(message, duration = 1800) {
+            const container = document.getElementById("toast-container");
+            if (!container) return;
+
+            const toast = document.createElement("div");
+            toast.className = "toast";
+            toast.textContent = message;
+
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), duration);
+        }
+    </script>
+
+    <!-- ✅ 파라미터 toast가 있으면 자동 실행 -->
+    <script th:if="${param.toast}">
+        showToast("[[${param.toast}]]");
+    </script>
+</div>

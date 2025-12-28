@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts</title>
+    <link href="/css/main.css" rel="stylesheet">
+
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="container">
+    <div class="header">
+        <div>
+            <h1 class="h1">Posts</h1>
+            <p class="sub">작성된 글 목록입니다.</p>
+        </div>
+        <a class="btn btn-primary" href="/posts/new">+ 글쓰기</a>
+    </div>
+
+    <div class="list">
+        <a th:each="post : ${posts}"
+           th:href="@{/posts/{id}(id=${post.id})}"
+           class="post">
+            <img th:if="${post.imageUrl != null}"
+                 th:src="${post.imageUrl}"
+                 class="thumb"
+                 alt="post image" />
+            <h4 class="title" th:text="${post.title}">제목</h4>
+            <p class="content" th:text="${post.content}">내용</p>
+
+            <div class="meta">
+                <div>작성자 : <span th:text="${post.author}">author</span></div>
+                <div>작성날짜 :  <span th:text="${#temporals.format(post.createdAt, 'yyyy. MM. dd. a h:mm')}">createdAt</span></div>
+            </div>
+
+        </a>
+    </div>
+
+
+</div>
+<div id="toast" th:if="${toast}" th:data-msg="${toast}"></div>
+
+<!-- ✅ 토스트 컨테이너 -->
+<div id="toast-container"></div>
+
+<script>
+    const el = document.getElementById('toast');
+
+    if (el) {
+      const msg = el.dataset.msg;
+      const container = document.getElementById('toast-container');
+
+      // toast 생성
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = msg;
+
+      // 초기 상태
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(-8px)';
+
+      container.appendChild(toast);
+
+      // 등장
+      requestAnimationFrame(() => {
+        toast.style.animation = 'toast-in 0.25s ease forwards';
+      });
+
+      // 2초 후 사라짐
+      setTimeout(() => {
+        toast.style.animation = 'toast-out 0.25s ease forwards';
+        setTimeout(() => toast.remove(), 250);
+      }, 2000);
+
+      // 서버에서 내려온 div 제거
+      el.remove();
+    }
+</script>
+
+</body>
+</html>

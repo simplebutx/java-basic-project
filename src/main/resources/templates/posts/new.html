@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write</title>
+    <link href="/css/main.css" rel="stylesheet">
+
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="container">
+    <div class="header">
+        <div>
+            <h1 class="h1">Write a Post</h1>
+            <p class="sub">간단히 작성하고 발행하세요.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <form class="form" action="/posts" method="post" enctype="multipart/form-data">
+
+            <div class="field">
+                <label>제목</label>
+                <input name="title" placeholder="title">
+            </div>
+
+            <div class="field">
+                <label>내용</label>
+                <textarea name="content" placeholder="content"></textarea>
+            </div>
+
+            <div class="field">
+                <input type="file" name="imageFile" accept="image/*">
+            </div>
+            <button class="btn btn-primary" type="submit">글 발행</button>
+        </form>
+    </div>
+</div>
+</body>
+
+</html>

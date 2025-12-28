@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Detail</title>
+    <link href="/css/main.css" rel="stylesheet" />
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="page">
+    <div class="detail-card">
+
+        <h1 class="detail-title" th:text="${post.title}">제목</h1>
+        <p class="detail-content" th:text="${post.content}">내용</p>
+
+        <div class="detail-meta">
+            <div class="meta-row">
+                <span class="meta-emoji">✏️</span>
+                <span>작성자 : </span>
+                <span class="meta-value" th:text="${post.author}">author</span>
+            </div>
+
+            <!-- createdAt이 있으면 이걸 쓰고, 없으면 통째로 삭제해도 됨 -->
+            <div class="meta-row" th:if="${post.createdAt != null}">
+                <span class="meta-emoji">🕒</span>
+                <span>작성 날짜 : </span>
+                <span class="meta-value"
+                      th:text="${#temporals.format(post.createdAt, 'yyyy. MM. dd. a h:mm')}">date</span>
+            </div>
+
+            <div class="meta-row" th:if="${post.updatedAt != null}">
+                <span class="meta-emoji">🕒</span>
+                <span>수정 날짜 : </span>
+                <span class="meta-value"
+                      th:text="${#temporals.format(post.updatedAt, 'yyyy. MM. dd. a h:mm')}">date</span>
+            </div>
+        </div>
+
+        <img th:if="${post.imageUrl != null}"
+             th:src="${post.imageUrl}"
+             style="max-width: 600px; height: auto;" />
+
+        <!-- 작성자만 보이는 영역 -->
+        <div th:if="${post.author == #authentication.name}" class="detail-actions">
+
+            <!-- 수정 (GET) -->
+            <form th:action="@{/posts/{id}/edit(id=${post.id})}" method="get" style="display:inline">
+                <button type="submit" class="action-btn action-edit">
+                    ✏️ <span>수정</span>
+                </button>
+            </form>
+
+            <!-- 삭제 (POST) -->
+            <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" style="display:inline">
+                <button type="submit" class="action-btn action-delete">
+                    🗑 삭제
+                </button>
+            </form>
+
+        </div>
+
+        <!-- 관리자만 보이는 영역 -->
+        <div sec:authorize="hasAuthority('ROLE_ADMIN')" class="detail-actions">
+            <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" style="display:inline">
+                <button type="submit" class="action-btn action-delete">
+                    🛡 관리자 삭제
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+

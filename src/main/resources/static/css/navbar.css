@@ -1,0 +1,37 @@
+.nav{
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 6px 18px rgba(17,24,39,0.06);
+}
+
+.nav-inner{
+  max-width: 980px;
+  margin:0 auto;
+  padding: 18px 18px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.brand{
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing:-0.3px;
+  margin-right: 18px;
+}
+
+.nav a{
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.nav a:hover{
+  background:#f3f4f6;
+}
+
+/* 네가 navbar에서 spacer span을 쓰는 구조면 이건 필요 없음.
+   spacer 클래스에 flex:1 주는 걸 추천 (아래 참고) */
+.spacer{ flex:1; }
+.user-name{ font-weight:700; color: var(--muted); }

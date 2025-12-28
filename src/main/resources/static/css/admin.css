@@ -1,0 +1,79 @@
+/* ===== Admin Page ===== */
+.admin-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.admin-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.admin-subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+/* User list */
+.user-list {
+    display: grid;
+    gap: 14px;
+}
+
+.user-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+}
+
+/* labels */
+.user-field {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.user-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* role badge */
+.role-badge {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.role-user {
+    background: #f1f5f9;
+    color: #334155;
+    border-color: #e2e8f0;
+}
+
+.role-admin {
+    background: #eef2ff;
+    color: #3730a3;
+    border-color: #c7d2fe;
+}
+
+/* mobile */
+@media (max-width: 640px) {
+    .user-card {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}

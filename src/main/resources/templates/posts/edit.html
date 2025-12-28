@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write</title>
+    <link href="/css/main.css" rel="stylesheet">
+
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="container">
+    <div class="header">
+        <div>
+            <h1 class="h1">수정페이지</h1>
+        </div>
+    </div>
+
+    <div class="card">
+        <form th:action="@{/posts/{id}/edit(id=${post.id})}" method="post">
+
+            <div class="field">
+                <label>제목</label>
+                <input name="title" placeholder="title" th:value="${post.title}">
+            </div>
+
+            <div class="field">
+                <label>내용</label>
+                <textarea name="content" placeholder="content" th:text="${post.content}"></textarea>
+            </div>
+
+            <button class="btn btn-primary" type="submit">수정하기</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
