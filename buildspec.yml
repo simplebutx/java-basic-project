@@ -14,4 +14,3 @@ phases:
 artifacts:
   files:
     - build/libs/*.jar
-    -
