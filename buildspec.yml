@@ -1,11 +1,11 @@
-﻿version: 0.2
+version: 0.2
 
 phases:
   install:
     runtime-versions:
       java: corretto17
     commands:
-      - chmod +x gradlew
+      - chmod +x ./gradlew
 
   build:
     commands:
