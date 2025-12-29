@@ -3,15 +3,16 @@
 phases:
   build:
     commands:
-      - "chmod +x gradlew"
-      - "./gradlew clean build -x test"
-      - "rm -rf deploy"
-      - "mkdir -p deploy"
-      - "cp build/libs/*-SNAPSHOT.jar deploy/application.jar"
-      - "echo 'web: java -jar application.jar' > deploy/Procfile"
+      - chmod +x gradlew
+      - ./gradlew clean build -x test
+      - rm -rf deploy
+      - mkdir -p deploy
+      - ls -al build/libs
+      - cp build/libs/*.jar deploy/application.jar
+      - echo "web: java -jar application.jar" > deploy/Procfile
 
 artifacts:
   base-directory: deploy
   files:
-    - "application.jar"
-    - "Procfile"
+    - application.jar
+    - Procfile
