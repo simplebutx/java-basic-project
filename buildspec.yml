@@ -7,11 +7,8 @@ phases:
       - ./gradlew clean build -x test
       - rm -rf deploy
       - mkdir -p deploy
-      - cp build/libs/*.jar deploy/application.jar
-      - |
-        cat > deploy/Procfile <<'EOF'
-        web: java -jar application.jar
-        EOF
+      - cp build/libs/*-SNAPSHOT.jar deploy/application.jar
+      - echo "web: java -jar application.jar" > deploy/Procfile
 
 artifacts:
   base-directory: deploy
