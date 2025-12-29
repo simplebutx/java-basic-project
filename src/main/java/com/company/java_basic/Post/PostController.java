@@ -25,7 +25,7 @@ public class PostController {
 
     @GetMapping("/")
     String mainpage(){
-        return "/posts";
+        return "redirect:/posts";
     }
 
     @GetMapping("/posts")
