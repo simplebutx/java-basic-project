@@ -14,4 +14,3 @@ artifacts:
   base-directory: deploy
   files:
     - application.jar
-    - Procfile
