@@ -14,19 +14,12 @@ public class AwsConfig {
     @Value("${cloud.aws.region}")
     private String region;
 
-    @Value("${cloud.aws.access-key}")
-    private String accessKey;
-
-    @Value("${cloud.aws.secret-key}")
-    private String secretKey;
-
     @Bean
     public S3Client s3Client() {
-        AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secretKey);
-
         return S3Client.builder()
                 .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(creds))
+                .credentialsProvider(software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider.create())
                 .build();
     }
 }
+
