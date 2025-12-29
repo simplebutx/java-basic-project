@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
-      - chmod +x ./gradlew
+      - chmod +x gradlew
 
   build:
     commands:
