@@ -9,7 +9,6 @@ phases:
       - mkdir -p deploy
       - JAR=$(ls -1 build/libs/*.jar | grep -v plain | head -n 1)
       - cp "$JAR" deploy/application.jar
-      - 'printf "web: java -jar application.jar --server.port=8080\n" > deploy/Procfile'
 
 artifacts:
   base-directory: deploy
