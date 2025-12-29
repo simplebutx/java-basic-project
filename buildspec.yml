@@ -7,7 +7,8 @@ phases:
       - ./gradlew clean build -x test
       - rm -rf deploy
       - mkdir -p deploy
-      - JAR=$(ls -1 build/libs/*.jar | grep -v plain | head -n 1)
+      - JAR=$(ls -1t build/libs/*.jar | grep -v plain | head -n 1)
+      - echo "Using JAR=$JAR"
       - cp "$JAR" deploy/application.jar
 
 artifacts:
