@@ -3,11 +3,11 @@ version: 0.2
 phases:
   build:
     commands:
-      - chmod +x ./gradlew
+      - chmod +x gradlew
       - ./gradlew clean build -x test
       - mkdir -p deploy
       - cp build/libs/*.jar deploy/application.jar
-      - echo "web: java -jar application.jar" > deploy/Procfile
+      - printf 'web: java -jar application.jar\n' > deploy/Procfile
 
 artifacts:
   base-directory: deploy
