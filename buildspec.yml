@@ -4,7 +4,8 @@ phases:
   build:
     commands:
       - chmod +x gradlew
-      - ./gradlew clean build -x test
+      - ./gradlew clean
+      - ./gradlew build -x test
       - rm -rf deploy
       - mkdir -p deploy
       - JAR=$(ls -1t build/libs/*.jar | grep -v plain | head -n 1)
