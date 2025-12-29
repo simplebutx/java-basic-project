@@ -5,6 +5,7 @@ phases:
     commands:
       - chmod +x gradlew
       - ./gradlew clean build -x test
+      - rm -rf deploy
       - mkdir -p deploy
       - cp build/libs/*.jar deploy/application.jar
       - |
