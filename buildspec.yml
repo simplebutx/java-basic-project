@@ -1,16 +1,16 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      java: corretto17
-    commands:
-      - chmod +x gradlew
-
   build:
     commands:
+      - chmod +x ./gradlew
       - ./gradlew clean build -x test
+      - mkdir -p deploy
+      - cp build/libs/*.jar deploy/application.jar
+      - echo "web: java -jar application.jar" > deploy/Procfile
 
 artifacts:
+  base-directory: deploy
   files:
-    - build/libs/*.jar
+    - application.jar
+    - Procfile
