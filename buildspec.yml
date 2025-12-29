@@ -8,7 +8,7 @@ phases:
       - rm -rf deploy
       - mkdir -p deploy
       - cp build/libs/*.jar deploy/application.jar
-      - printf "web: java -jar application.jar\n" > deploy/Procfile
+      - 'printf "web: java -jar application.jar\n" > deploy/Procfile'
 
 artifacts:
   base-directory: deploy
