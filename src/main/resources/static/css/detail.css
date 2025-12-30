@@ -36,10 +36,18 @@
   flex-direction: column;
   gap: 10px;
   color: #4b5563;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .meta-row{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta-row2{
+color: #9c9c9c;
+font-size: 13px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -55,6 +63,11 @@
 .meta-value{
   font-weight: 700;
   color: #111827;
+}
+
+.meta-value2{
+  font-weight: 400;
+  color: #9c9c9c;
 }
 
 .detail-image-wrap{

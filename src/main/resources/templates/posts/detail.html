@@ -17,6 +17,10 @@
         <h1 class="detail-title" th:text="${post.title}">제목</h1>
         <p class="detail-content" th:text="${post.content}">내용</p>
 
+        <img th:if="${post.imageUrl != null}"
+             th:src="${post.imageUrl}"
+             style="max-width: 600px; height: auto;" />
+
         <div class="detail-meta">
             <div class="meta-row">
                 <span class="meta-emoji">✏️</span>
@@ -25,24 +29,20 @@
             </div>
 
             <!-- createdAt이 있으면 이걸 쓰고, 없으면 통째로 삭제해도 됨 -->
-            <div class="meta-row" th:if="${post.createdAt != null}">
+            <div class="meta-row2" th:if="${post.createdAt != null}">
                 <span class="meta-emoji">🕒</span>
                 <span>작성 날짜 : </span>
-                <span class="meta-value"
+                <span class="meta-value2"
                       th:text="${#temporals.format(post.createdAt, 'yyyy. MM. dd. a h:mm')}">date</span>
             </div>
 
-            <div class="meta-row" th:if="${post.updatedAt != null}">
+            <div class="meta-row2" th:if="${post.updatedAt != null}">
                 <span class="meta-emoji">🕒</span>
                 <span>수정 날짜 : </span>
-                <span class="meta-value"
+                <span class="meta-value2"
                       th:text="${#temporals.format(post.updatedAt, 'yyyy. MM. dd. a h:mm')}">date</span>
             </div>
         </div>
-
-        <img th:if="${post.imageUrl != null}"
-             th:src="${post.imageUrl}"
-             style="max-width: 600px; height: auto;" />
 
         <!-- 작성자만 보이는 영역 -->
         <div th:if="${post.author == #authentication.name}" class="detail-actions">
@@ -73,8 +73,139 @@
         </div>
 
     </div>
-</div>
 
+    <div class="comments-section">
+        <form class="comment-form" th:action="@{/posts/{id}/comments(id=${post.id})}" method="POST">
+            <input class="comment-input" name="content" placeholder="댓글을 입력하세요" />
+            <button class="comment-submit" type="submit">댓글달기</button>
+        </form>
+
+        <div class="comment-list">
+            <div class="comment-item" th:each="comment : ${comments}">
+
+                <div class="comment-view">
+                    <p class="comment-content" th:text="${comment.content}"></p>
+
+                    <div class="comment-bottom">
+                        <div class="comment-meta">
+                            <span class="comment-author" th:text="${comment.author}"></span>
+
+                            <span class="comment-created"
+                                  th:text="${#temporals.format(comment.createdAt, 'yyyy. MM. dd. a h:mm')}"></span>
+
+                            <!-- ✅ updatedAt이 있을 때만 보여주기 -->
+                            <span class="comment-updated"
+                                  th:if="${comment.updatedAt != null}"
+                                  th:text="'(수정: ' + ${#temporals.format(comment.updatedAt, 'yyyy. MM. dd. a h:mm')} + ')'"></span>
+                        </div>
+
+
+                        <div th:if="${comment.author == #authentication.name}" class="detail-actions">
+                        <div class="comment-actions">
+                            <button type="button" class="comment-edit-btn">수정</button>
+
+                            <form th:action="@{/posts/{id}/comments/{commentId}/delete(
+                    id=${post.id},
+                    commentId=${comment.id}
+                )}"
+                                  method="post">
+                                <button type="submit" class="comment-delete-btn">삭제</button>
+                            </form>
+                        </div>
+                            </div>
+
+                        <div sec:authorize="hasAuthority('ROLE_ADMIN')" class="detail-actions">
+                            <form th:action="@{/posts/{id}/comments/{commentId}/delete(
+                                    id=${post.id}, commentId=${comment.id})}"
+                                  method="post" style="display:inline">
+                                <button type="submit" class="action-btn action-delete">
+                                    🛡 관리자 삭제
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 수정 폼은 그대로 -->
+                <form class="comment-edit-form"
+                      th:action="@{/posts/{id}/comments/{commentId}/edit(
+            id=${post.id},
+            commentId=${comment.id}
+        )}"
+                      method="post"
+                      style="display:none;">
+                    <input name="content" th:value="${comment.content}">
+                    <button type="submit">저장</button>
+                    <button type="button" class="comment-cancel-btn">취소</button>
+                </form>
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<div id="toast" th:if="${toast}" th:data-msg="${toast}"></div>
+<div id="toast-container"></div>
 </body>
+
+<script>
+    document.addEventListener('click', function (e) {
+
+      // 수정 버튼
+      if (e.target.classList.contains('comment-edit-btn')) {
+        const commentItem = e.target.closest('.comment-item');
+
+        commentItem.querySelector('.comment-view').style.display = 'none';
+        commentItem.querySelector('.comment-edit-form').style.display = 'block';
+      }
+
+      // 취소 버튼
+      if (e.target.classList.contains('comment-cancel-btn')) {
+        const commentItem = e.target.closest('.comment-item');
+
+        commentItem.querySelector('.comment-edit-form').style.display = 'none';
+        commentItem.querySelector('.comment-view').style.display = 'block';
+      }
+    });
+</script>
+
+<script>
+    const el = document.getElementById('toast');
+
+    if (el) {
+      const msg = el.dataset.msg;
+      const container = document.getElementById('toast-container');
+
+      // toast 생성
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = msg;
+
+      // 초기 상태
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(-8px)';
+
+      container.appendChild(toast);
+
+      // 등장
+      requestAnimationFrame(() => {
+        toast.style.animation = 'toast-in 0.25s ease forwards';
+      });
+
+      // 2초 후 사라짐
+      setTimeout(() => {
+        toast.style.animation = 'toast-out 0.25s ease forwards';
+        setTimeout(() => toast.remove(), 250);
+      }, 2000);
+
+      // 서버에서 내려온 div 제거
+      el.remove();
+    }
+</script>
 </html>
 

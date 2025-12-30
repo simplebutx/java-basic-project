@@ -11,13 +11,14 @@ import java.time.LocalDateTime;
 @Table(name= "comments")
 @Getter
 @Setter
-
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length=1000)
     private String content;
     private String author;
+    private Long parentPostId;
 
     @Column(name="created_at")
     private LocalDateTime createdAt;

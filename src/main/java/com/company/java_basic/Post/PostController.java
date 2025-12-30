@@ -2,6 +2,8 @@ package com.company.java_basic.Post;
 
 import com.company.java_basic.Post.dto.PostCreateRequest;
 import com.company.java_basic.S3UploadService;
+import com.company.java_basic.comment.Comment;
+import com.company.java_basic.comment.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,7 @@ public class PostController {
     private final PostRepository postRepository;    // PostController가 사용할 PostRepository를 저장해두는 변수(참조)
     private final PostService postService;
     private final S3UploadService s3UploadService;
+    private final CommentRepository commentRepository;
 
     @GetMapping("/")
     String mainpage(){
@@ -63,7 +66,10 @@ public class PostController {
     String detail(@PathVariable Long id, Model model) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("post not found: " + id));
+
+        List<Comment> comments = commentRepository.findByParentPostId(id);
         model.addAttribute("post", post);
+        model.addAttribute("comments", comments);
         return "posts/detail";
     }
 
